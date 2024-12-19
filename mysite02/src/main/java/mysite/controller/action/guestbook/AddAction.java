@@ -16,7 +16,7 @@ public class AddAction implements Action {
 		String name = request.getParameter("name");
 		String password = request.getParameter("password");
 		String contents = request.getParameter("contents");
-		
+
 		GuestBookVo vo = new GuestBookVo();
 		vo.setName(name);
 		vo.setPassword(password);
