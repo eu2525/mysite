@@ -3,6 +3,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <%@ taglib prefix="fn" uri="jakarta.tags.functions" %>
+<%
+pageContext.setAttribute("newLine", "\n");
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -43,7 +46,7 @@
 								</tr>
 								<tr>
 									<td colspan=4>
-									${fn:replace(vo.contents, newline, "<br>") }
+										${fn:replace(vo.contents, newLine, "<br>") }
 									</td>
 								</tr>
 							</table>
