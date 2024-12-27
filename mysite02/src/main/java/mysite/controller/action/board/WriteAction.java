@@ -18,21 +18,21 @@ public class WriteAction implements Action {
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
 		UserVo authUser = (UserVo) session.getAttribute("authUser");
+		
 		if (authUser == null) {
 			response.sendRedirect("/mysite02/board?pageIdx=1");
 		}
 		else {
+			request.setAttribute("authUser", authUser);
+			
 			if(request.getParameter("titleId") != null) {
 				int titleId = Integer.parseInt(request.getParameter("titleId"));
 				BoardVo vo = new BoardDao().findById(titleId);
 				request.setAttribute("vo", vo);
 				System.out.println(vo);
-			}
-		
+			}	
 			request.setAttribute("authUser", authUser);
-	
-			
-			
+		
 			RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/board/write.jsp");
 			rd.forward(request, response);
 		}

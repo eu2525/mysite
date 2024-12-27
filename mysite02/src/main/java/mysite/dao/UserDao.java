@@ -14,7 +14,6 @@ public class UserDao {
 		
 		try {
 			Class.forName("org.mariadb.jdbc.Driver");
-		
 			String url = "jdbc:mariadb://192.168.0.26:3306/webdb";
 			conn = DriverManager.getConnection(url, "webdb", "webdb");
 		} catch (ClassNotFoundException e) {
@@ -42,7 +41,6 @@ public class UserDao {
 		} 
 		
 		return count;
-		
 	}
 
 	public UserVo findByEmailAndPassword(String email, String password) {
@@ -52,7 +50,6 @@ public class UserDao {
 			Connection conn = getConnection();
 			PreparedStatement pstmt = conn.prepareStatement("select id, name, gender from user where email=? and password=?;");
 		) {
-			
 			pstmt.setString(1, email);
 			pstmt.setString(2, password);
 			
@@ -83,7 +80,6 @@ public class UserDao {
 			Connection conn = getConnection();
 			PreparedStatement pstmt = conn.prepareStatement("select name, gender, email from user where id=?;");
 		) {
-			
 			pstmt.setLong(1, id);
 			
 			ResultSet rs = pstmt.executeQuery();

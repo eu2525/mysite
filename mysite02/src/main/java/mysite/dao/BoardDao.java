@@ -28,7 +28,7 @@ public class BoardDao {
 		return conn;
 	}
 	
-	
+	// Insert
 	// new book insert
 	public int insertNewBoard(BoardVo vo, Long userId) {
 		int count = 0;
@@ -57,7 +57,6 @@ public class BoardDao {
 		try (
 			Connection conn = getConnection();
 			PreparedStatement pstmt = conn.prepareStatement("insert into board values(null, ?, ?, 0 , date_format(NOW(), '%Y-%m-%d %H:%i:%s'), ?, ?, ?, ?);");
-
 			) {			
 			updateReplyBoard(replygNo, replyoNo, replyDepth);
 			
@@ -75,7 +74,8 @@ public class BoardDao {
 		
 		return count;
 	}
-
+	
+	// Delete
 	// titleId 기준으로 delete 
 	public int deleteByTitleId(int titleId) {
 		int count = 0;
@@ -94,7 +94,7 @@ public class BoardDao {
 		return count;	
 	}
 	
-	
+	// Update
 	// InsertReplyBoard시 기존 o_no update.
 	public int updateReplyBoard(int replygNo, int replyoNo, int replyDepth) {
 		int count = 0;
@@ -133,7 +133,7 @@ public class BoardDao {
 		return count;	
 	}
 	
-	// 글 조회시 조회수 Update
+	// 조회시 조회수 Update
 	public int updateBoardHit(BoardVo vo) {
 		int count = 0;
 		
@@ -153,21 +153,21 @@ public class BoardDao {
 	
 	
 	
-	// Read 하는 코드
+	// Read 
 	// page에 맞는 글들을 read 하는 sql문
 	public List<BoardVo> findByPage(String keyword, int pageIdx, int pageSize) {
 		List<BoardVo> result = new ArrayList<>();
-		ResultSet rs = null;
+		
 		try (
 			Connection conn = getConnection();
 			PreparedStatement pstmt = conn.prepareStatement("select * from board where title LIKE ? or contents LIKE ? order by g_no desc, o_no asc limit ?,?;");	
 		) {
-			
 			pstmt.setString(1, "%" + keyword + "%");
 			pstmt.setString(2, "%" + keyword + "%");
             pstmt.setInt(3, (pageIdx - 1) * pageSize);
             pstmt.setInt(4, pageSize);
-			rs = pstmt.executeQuery();
+			
+            ResultSet rs = pstmt.executeQuery();
 			
 			while(rs.next()) {
 				Long id = rs.getLong(1);
@@ -198,17 +198,10 @@ public class BoardDao {
 				
 				result.add(vo);
 			}
+			rs.close();
 		} catch (SQLException e) {
 			System.out.println("error:" + e);
-		} finally {
-			try {
-				if(rs != null) {
-					rs.close();
-				}
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}
+		} 
 		
 		return result;
 	}
@@ -216,14 +209,14 @@ public class BoardDao {
 	// TitleID를 이용해서 게시글 정보 가져오는 코드
 	public BoardVo findById(int titleId) {
 		BoardVo vo = null;
-		ResultSet rs = null;
+		
 		try (
 			Connection conn = getConnection();
 			PreparedStatement pstmt = conn.prepareStatement("select * from board where id = ?;");	
 		) {
 			pstmt.setInt(1, titleId);
 			
-			rs = pstmt.executeQuery();
+			ResultSet rs = pstmt.executeQuery();
 			
 			if (rs.next()) {
 				Long id = rs.getLong(1);
@@ -247,25 +240,20 @@ public class BoardDao {
 				vo.setoNo(oNo);
 				vo.setDepth(depth);
 				vo.setUserId(user_id);
-				
 			}
+			
+			rs.close();
 		} catch (SQLException e) {
 			System.out.println("error:" + e);
-		} finally {
-			try {
-				if(rs != null) {
-					rs.close();
-				}
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}
+		} 
+
 		return vo;
 	}
 
 	// gNo의 Max값을 read하는 sql문
 	public int getMaxgNo() {
 		int result = 0;
+		
 		try (
 			Connection conn = getConnection();
 			PreparedStatement pstmt = conn.prepareStatement("select COALESCE(max(g_no) , 0) as maxgno from board;");	
@@ -284,33 +272,26 @@ public class BoardDao {
 	// Keyword에 맞는 글들의 수를 read하는 sql문
 	public int getBoardCount(String keyword) {
 		int result = 0;
-		ResultSet rs = null;
+		
 		try (
 			Connection conn = getConnection();
-			PreparedStatement pstmt = conn.prepareStatement("select count(id) from webdb.board WHERE title LIKE ?;");	
+			PreparedStatement pstmt = conn.prepareStatement("select count(id) from webdb.board WHERE title LIKE ? or contents LIKE ?;");	
 		) {	
 			pstmt.setString(1, "%" + keyword + "%");
-			rs = pstmt.executeQuery();
+			pstmt.setString(2, "%" + keyword + "%");
+			ResultSet rs = pstmt.executeQuery();
 			
 			if(rs.next()) {
 				result = rs.getInt(1);
 			}
+			
+			rs.close();
 		} catch (SQLException e) {
 			System.out.println("error:" + e);
-		} finally {
-			try {
-				if(rs != null) {
-					rs.close();
-				}
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}
-		
+		} 
 		
 		return result;
 	}
 	
-
 }
 

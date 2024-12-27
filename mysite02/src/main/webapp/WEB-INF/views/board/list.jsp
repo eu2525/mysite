@@ -13,7 +13,8 @@
 		<c:import url="/WEB-INF/views/includes/header.jsp"/>
 		<div id="content">
 			<div id="board">
-				<form id="search_form" action="/mysite02/board" method="post">
+				<form id="search_form" action="/mysite02/board" method="get">
+					<input type="hidden" id="pageIdx" name="pageIdx" value="1">
 					<input type="text" id="keyword" name="keyword" value="${keyword }">
 					<input type="submit" value="찾기">
 				</form>
