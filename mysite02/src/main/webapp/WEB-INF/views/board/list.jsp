@@ -28,9 +28,9 @@
 					</tr>			
 					
 					<!-- List 받아서 출력하는 부분 -->
-					<c:forEach items="${list }" var="vo" >
+					<c:forEach items="${list }" var="vo" varStatus="status">
 						<tr>
-							<td>[${vo.id }] </td>
+							<td>[${boardStartIdx - status.index}] </td>
 							<td style="text-align:left; padding-left:${vo.depth * 20}px">
 							    <c:if test="${vo.depth != 0}">
 	                                <img src="${pageContext.request.contextPath}/assets/images/reply.png">
@@ -47,31 +47,28 @@
 					</c:forEach>
 				</table>
 				
-				
 				<!-- pager 추가 -->
 				<div class="pager">
-					<ul>
-						<!-- 첫페이지이면 이전 버튼 없어야 하고 끝페이지면 다음 버튼과 끝 페이지가 없어야함 -->
-						<c:if test='${currentPage != 1}'>
-							<li><a href="${pageContext.request.contextPath }/board?pageIdx=${currentPage - 1}&keyword=${keyword }">◀</a></li>
-							<li><a href="${pageContext.request.contextPath }/board?pageIdx=1&keyword=${keyword }">1</a></li>
-						</c:if>
-						<c:if test='${currentPage > 2}'>
-							<li>...</li>
-							<li><a href="${pageContext.request.contextPath }/board?pageIdx=${currentPage - 1}&keyword=${keyword }">${currentPage - 1}</a></li>									
-						</c:if>					
-						<li class="selected">${currentPage }</li>
-						<c:if test='${totalPage - currentPage > 1}'>
-							<li><a href="${pageContext.request.contextPath }/board?pageIdx=${currentPage + 1}&keyword=${keyword }">${currentPage + 1}</a></li>
-							<li>...</li>
-						</c:if>			
-						
-						<c:if test='${currentPage != totalPage}'>
-							<li><a href="${pageContext.request.contextPath }/board?pageIdx=${totalPage}&keyword=${keyword }">${totalPage }</a></li>
-							<li><a href="${pageContext.request.contextPath }/board?pageIdx=${currentPage + 1}&keyword=${keyword }">▶</a></li>
-						</c:if>
-					</ul>
-				</div>					
+				    <ul>
+				        <c:if test='${currentPage > 1}'>
+				            <li><a href="${pageContext.request.contextPath}/board?pageIdx=${currentPage - 1}&keyword=${keyword}">◀</a></li>
+				        </c:if>
+				        <c:forEach var="i" begin="${prevPage}" end="${endPage}">
+				            <c:choose>
+				                <c:when test='${i == currentPage}'>
+				                    <li class="selected">${i}</li>
+				                </c:when>
+				                <c:otherwise>
+				                    <li><a href="${pageContext.request.contextPath}/board?pageIdx=${i}&keyword=${keyword}">${i}</a></li>
+				                </c:otherwise>
+				            </c:choose>
+				        </c:forEach>
+			
+				        <c:if test='${currentPage < totalPage}'>
+				            <li><a href="${pageContext.request.contextPath}/board?pageIdx=${currentPage + 1}&keyword=${keyword}">▶</a></li>
+				        </c:if>
+				    </ul>
+				</div>
 				<!-- pager 추가 -->
 				
 				<!-- 로그인시 글쓰기 버튼 활성화 -->
@@ -79,8 +76,7 @@
 					<div class="bottom">
 						<a href="${pageContext.request.contextPath }/board?a=write" id="new-book">글쓰기</a>
 					</div>	
-		    	</c:if>
-			    			
+		    	</c:if>	
 			</div>
 		</div>
 		<c:import url="/WEB-INF/views/includes/navigation.jsp"/>

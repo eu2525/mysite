@@ -16,21 +16,26 @@ public class WriteAction implements Action {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		if(request.getParameter("titleId") != null) {
-			int titleId = Integer.parseInt(request.getParameter("titleId"));
-			BoardVo vo = new BoardDao().findById(titleId);
-			request.setAttribute("vo", vo);
-			System.out.println(vo);
-		}
-		
 		HttpSession session = request.getSession();
 		UserVo authUser = (UserVo) session.getAttribute("authUser");
-		if (authUser != null){
-			request.setAttribute("authUser", authUser);
-		}	 
+		if (authUser == null) {
+			response.sendRedirect("/mysite02/board?pageIdx=1");
+		}
+		else {
+			if(request.getParameter("titleId") != null) {
+				int titleId = Integer.parseInt(request.getParameter("titleId"));
+				BoardVo vo = new BoardDao().findById(titleId);
+				request.setAttribute("vo", vo);
+				System.out.println(vo);
+			}
 		
-		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/board/write.jsp");
-		rd.forward(request, response);
+			request.setAttribute("authUser", authUser);
+	
+			
+			
+			RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/board/write.jsp");
+			rd.forward(request, response);
+		}
 	}
 
 }

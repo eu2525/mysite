@@ -19,9 +19,17 @@ public class ModifyAction implements Action {
 		int titleId = Integer.parseInt(request.getParameter("titleId"));
 		BoardVo vo = new BoardDao().findById(titleId);
 		request.setAttribute("vo", vo);
-				
-		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/board/modify.jsp");
-		rd.forward(request, response);
+		
+		HttpSession session = request.getSession();
+		UserVo authUser = (UserVo) session.getAttribute("authUser");
+		
+		if (authUser.getId() != vo.getUserId()){
+			response.sendRedirect("/mysite02/board?pageIdx=1");
+		}
+		else {
+			RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/board/modify.jsp");
+			rd.forward(request, response);
+		}
 	}
 
 }
