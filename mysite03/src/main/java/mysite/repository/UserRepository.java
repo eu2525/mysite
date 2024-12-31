@@ -33,7 +33,7 @@ public class UserRepository {
 		int count = 0;		
 		try (
 			Connection conn = getConnection();
-			PreparedStatement pstmt = conn.prepareStatement("insert into user values(null, ?, ?, ?, ?, date_format(NOW(), '%Y-%m-%d'));");
+			PreparedStatement pstmt = conn.prepareStatement("insert into user values(null, ?, ?, ?, ?, date_format(NOW(), '%Y-%m-%d'), 'USER');");
 		) {
 			pstmt.setString(1, vo.getName());
 			pstmt.setString(2, vo.getEmail());
@@ -54,7 +54,7 @@ public class UserRepository {
 		
 		try (
 			Connection conn = getConnection();
-			PreparedStatement pstmt = conn.prepareStatement("select id, name, gender from user where email=? and password=?;");
+			PreparedStatement pstmt = conn.prepareStatement("select id, name, role, gender from user where email=? and password=?;");
 		) {
 			
 			pstmt.setString(1, email);
@@ -64,11 +64,13 @@ public class UserRepository {
 			if(rs.next()) {
 				Long id = rs.getLong(1);
 				String name = rs.getString(2);
-				String gender = rs.getString(3);
+				String role = rs.getString(3);
+				String gender = rs.getString(4);
 				
 				vo = new UserVo();
 				vo.setId(id);
 				vo.setName(name);
+				vo.setRole(role);
 				vo.setGender(gender);
 			}
 			rs.close();
