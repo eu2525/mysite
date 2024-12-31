@@ -6,33 +6,24 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import javax.sql.DataSource;
+
 import org.springframework.stereotype.Repository;
 
 import mysite.vo.UserVo;
 
 @Repository
 public class UserRepository {
+	private DataSource dataSource;
 	
-	private Connection getConnection() throws SQLException{
-		Connection conn = null;
-		
-		try {
-			Class.forName("org.mariadb.jdbc.Driver");
-		
-			String url = "jdbc:mariadb://192.168.0.26:3306/webdb";
-			conn = DriverManager.getConnection(url, "webdb", "webdb");
-		} catch (ClassNotFoundException e) {
-			System.out.println("드라이버 로딩 실패:" + e);
-		} 
-		
-		return conn;
+	public UserRepository(DataSource dataSource) {
+		this.dataSource = dataSource;
 	}
-	
 
 	public int insert(UserVo vo) {
 		int count = 0;		
 		try (
-			Connection conn = getConnection();
+			Connection conn = dataSource.getConnection();
 			PreparedStatement pstmt = conn.prepareStatement("insert into user values(null, ?, ?, ?, ?, date_format(NOW(), '%Y-%m-%d'), 'USER');");
 		) {
 			pstmt.setString(1, vo.getName());
@@ -53,7 +44,7 @@ public class UserRepository {
 		UserVo vo = null;
 		
 		try (
-			Connection conn = getConnection();
+			Connection conn = dataSource.getConnection();
 			PreparedStatement pstmt = conn.prepareStatement("select id, name, role, gender from user where email=? and password=?;");
 		) {
 			
@@ -86,7 +77,7 @@ public class UserRepository {
 		UserVo vo = null;
 		
 		try (
-			Connection conn = getConnection();
+			Connection conn = dataSource.getConnection();
 			PreparedStatement pstmt = conn.prepareStatement("select name, gender, email from user where id=?;");
 		) {
 			
@@ -116,7 +107,7 @@ public class UserRepository {
 	public int update(UserVo vo) {
 		int count = 0;		
 		try (
-			Connection conn = getConnection();
+			Connection conn = dataSource.getConnection();
 			PreparedStatement pstmt1 = conn.prepareStatement("UPDATE user SET name = ?, gender=?, join_date=date_format(NOW(), '%Y-%m-%d') WHERE email=?;");
 			PreparedStatement pstmt2 = conn.prepareStatement("UPDATE user SET name = ?, password = ?, gender=?, join_date=date_format(NOW(), '%Y-%m-%d') WHERE email=?;");
 		) {

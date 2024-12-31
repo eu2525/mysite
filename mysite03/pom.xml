@@ -7,7 +7,8 @@
   </parent>
   <artifactId>mysite03</artifactId>
   <packaging>war</packaging>
-    <properties>
+  
+  <properties>
   	<project.build.sourceEncoding>utf-8</project.build.sourceEncoding>
   	<maven.compiler.source>21</maven.compiler.source>
   	<maven.compiler.target>21</maven.compiler.target>
@@ -22,12 +23,28 @@
 		<version>${org.springframework-version}</version>
 	</dependency>
 	
+	<!-- Spring JDBC -->
+	<dependency>
+		<groupId>org.springframework</groupId>
+		<artifactId>spring-jdbc</artifactId>
+		<version>${org.springframework-version}</version>
+	</dependency>	
+	
+	<!-- Common DBCP -->
+	<dependency>
+		<groupId>commons-dbcp</groupId>
+		<artifactId>commons-dbcp</artifactId>
+		<version>1.4</version>
+	</dependency>
+	
 	<!-- mariadb jdbc-->
 	<dependency>
 	  <groupId>org.mariadb.jdbc</groupId>
 	  <artifactId>mariadb-java-client</artifactId>
 	  <version>3.4.0</version>
 	</dependency>
+
+
   	<!-- jstl/EL -->
 	<dependency>
 		<groupId>jakarta.el</groupId>

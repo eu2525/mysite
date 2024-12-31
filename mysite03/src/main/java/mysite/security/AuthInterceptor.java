@@ -32,23 +32,35 @@ public class AuthInterceptor implements HandlerInterceptor {
 			auth = handlerMethod.getBeanType().getAnnotation(Auth.class);
 		}
 		
-		// 5. @Auth가 붙어있지 않으면 클래스(타입)에 @Auth 반드신 -> auth랑 상관 없으니 Pass
+		// 5. 클래스(타입)이나 메소드에 @Auth가 붙어있지 않은 경우 -> auth랑 상관 없으니 Pass
 		if (auth == null) {
 			return true;
 		}
-		
-		String role = auth.role();
-		
-		// 6.@Auth가 붙어 있기 때문에 인증(Authentication) 여부 확인
+				
+		//6. @Auth가 붙어 있기 때문에 인증(Authentication) 여부 확인
 		HttpSession session = request.getSession();
 		UserVo authUser = (UserVo)session.getAttribute("authUser");
 		
-		if (authUser == null) {
-			response.sendRedirect(request.getContextPath() + "user/login");
+		if(authUser == null) {
+			response.sendRedirect(request.getContextPath() + "/user/login");
 			return false;
 		}
 		
-		//7. @Auth가 붙어 있고, 인증도 된 경우
+		//7.권한(Authorization) 체크를 위해 role("USER", "ADMIN") 가져오기
+		String role = auth.role();
+
+		//8. @Auth의 role이 "USER"인 경우, authUser의 role은 "USER" 또는 "ADMIN" 이던 상관없다.
+		if("USER".equals(role)) {
+			return true;
+		}
+		
+		//9. @Auth의 role이 "ADMIN"인 경우, authUser의 role은 반드시 "ADMIN" 이어야 한다.
+		if(!"ADMIN".equals(authUser.getRole())) {
+			response.sendRedirect(request.getContextPath());
+			return false;
+		}
+		
+		//10. 옳은 관리자 권한 [@Auth(role="ADMIN") && authUser.role="ADMIN"] 
 		return true;
 	}
 
