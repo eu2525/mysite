@@ -1,10 +1,13 @@
-package mysite.service;
-
-import org.springframework.stereotype.Service;
-
-@Service
-public class BoardService {
-	
+//package mysite.service;
+//
+//import java.util.List;
+//import java.util.Map;
+//
+//import org.springframework.stereotype.Service;
+//
+//@Service
+//public class BoardService {
+//	
 //	public void addContents(BoardVo vo) {	
 //	}
 //	
@@ -29,9 +32,6 @@ public class BoardService {
 //		// view의 pagination을 위한 데이터 값 계산
 //		int beginPage;
 //		int endPage;		
-//	}
-	
-	
-	
-	
-}
+//	}	
+//	
+//}

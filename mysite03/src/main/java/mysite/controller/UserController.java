@@ -26,7 +26,9 @@ public class UserController {
 
 	@RequestMapping(value="/join", method=RequestMethod.POST)
 	public String join(UserVo userVo) {
+		System.out.println("이전" + userVo);
 		userService.join(userVo);
+		System.out.println("이후" + userVo);
 		return "redirect:/user/joinsuccess";
 	}
 	
@@ -44,7 +46,7 @@ public class UserController {
 	@RequestMapping(value="/update", method=RequestMethod.GET)
 	public String update(@AuthUser UserVo authUser, Model model) {
 		UserVo userVo = userService.getUser(authUser.getId());
-		
+		System.out.println("GET의 UserVo" + userVo);
 		model.addAttribute("vo", userVo);
 		return "user/update";
 	}
