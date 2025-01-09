@@ -39,6 +39,11 @@ public class UserRepository {
 	public int update(UserVo vo) {		
 		return sqlSession.update("user.update", vo);
 	}
+
+	public UserVo findByEmail(String email) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("user.findByEmail", email);
+	}
 	
 	
 }
