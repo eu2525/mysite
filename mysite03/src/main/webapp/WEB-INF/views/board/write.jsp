@@ -13,11 +13,12 @@
 		<c:import url="/WEB-INF/views/includes/header.jsp"/>
 		<div id="content">
 			<div id="board">
-				<form class="board-form" method="post" action="/mysite02/board">
-					<input type = "hidden" name = "a" value="register">
-					<input type = "hidden" name = "gNo" value="${vo.gNo }">
-					<input type = "hidden" name = "oNo" value="${vo.oNo }">
-					<input type = "hidden" name = "depth" value="${vo.depth }">
+				<form class="board-form" method="post" action="/mysite03/board/add">
+					<c:if test="${not empty(vo)}">
+						<input type = "hidden" name = "gNo" value="${vo.gNo }">
+						<input type = "hidden" name = "oNo" value="${vo.oNo }">
+						<input type = "hidden" name = "depth" value="${vo.depth }">
+					</c:if>
 					<table class="tbl-ex">
 						<tr>
 							<th colspan="2">글쓰기</th>
@@ -29,7 +30,7 @@
 						<tr>
 							<td class="label">내용</td>
 							<td>
-								<textarea id="content" name="content"></textarea>
+								<textarea id="contents" name="contents"></textarea>
 							</td>
 						</tr>
 					</table>

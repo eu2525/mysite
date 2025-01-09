@@ -13,6 +13,7 @@
 		<div id="wrapper">
 			<div id="content">
 				<div id="site-introduction">
+				    <!-- /assets/mysite-uploads/profile.jpg로 변경했을 때 나오게 -->
 					<img id="profile" src="${pageContext.request.contextPath }/assets/images/profile.jpg", style="width:250px">
 					<h2>안녕하세요. 한상진의  mysite에 오신 것을 환영합니다.</h2>
 					<p>

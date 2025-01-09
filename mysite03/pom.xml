@@ -110,10 +110,29 @@
 	  <version>6.0.0</version>
 	  <scope>provided</scope>
 	</dependency>
+
+	<!-- Spring aspects -->
+	<dependency>
+		<groupId>org.springframework</groupId>
+		<artifactId>spring-aspects</artifactId>
+		<version>${org.springframework-version}</version>
+	</dependency>
+	
   </dependencies>
   
   <build>
-	<finalName>mysite03</finalName>  	
+	<finalName>mysite03</finalName>  
+	<plugins>
+		<plugin>
+			<groupId>org.apache.tomcat.maven</groupId>
+	    	<artifactId>tomcat7-maven-plugin</artifactId>
+	    	<version>2.2</version>
+	    	<configuration>
+				<url>${tomcat.deploy.url}</url>
+				<server>tomcat-poscodx</server>
+			</configuration>
+		</plugin>
+	</plugins>	
   </build>
   
 </project>
