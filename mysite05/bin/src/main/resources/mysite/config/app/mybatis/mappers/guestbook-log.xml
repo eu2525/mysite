@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="guestbook-log">
+	<select id="insert">
+		<![CDATA[
+			insert into guestbook_log values(current_date(), 1)		
+		]]>
+	</select>
+	
+	<insert id="update">
+		<![CDATA[
+			insert into guestbook 
+			values(null, #{name}, #{password}, now(), #{contents})
+		]]>
+	</insert>
+	
+	<delete id="updateByRegDate" parameterType="String">
+		<![CDATA[
+
+		]]>
+	</delete>
+</mapper>

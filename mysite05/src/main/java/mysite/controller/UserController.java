@@ -1,5 +1,7 @@
 package mysite.controller;
 
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -46,7 +48,12 @@ public class UserController {
 	@RequestMapping(value="/update", method=RequestMethod.GET)
 	public String update(@AuthUser UserVo authUser, Model model) {
 		UserVo userVo = userService.getUser(authUser.getId());
-		System.out.println("GET의 UserVo" + userVo);
+//		// 1. HttpSession을 사용하는 방법
+//		SecurityContext sc = (SecurityContext)session.getAttribute(HttpSessionSecurityContextRepository);
+//		Authentication authentication = sc.getAuthentication();
+//		UserVo authUser = (UserVo)authentication.getPrincipal();
+		
+		
 		model.addAttribute("vo", userVo);
 		return "user/update";
 	}
