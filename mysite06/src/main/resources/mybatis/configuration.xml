@@ -7,8 +7,8 @@
     </typeAliases>	
 	
 	<mappers>
-		<mapper resource="mysite/config/app/mybatis/mappers/user.xml" />
-		<mapper resource="mysite/config/app/mybatis/mappers/guestbook.xml" />
+		<mapper resource="mybatis/mappers/user.xml" />
+		<mapper resource="mybatis/mappers/guestbook.xml" />
 	</mappers>
 	
 </configuration>

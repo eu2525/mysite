@@ -1,4 +1,4 @@
-package mysite.config.app;
+package mysite.config;
 
 import java.io.IOException;
 
@@ -110,5 +110,6 @@ public class SecurityConfig {
     public UserDetailsService userDetailsService(UserRepository userRepository) {
     	return new UserDetailsServiceImpl(userRepository);
     }
+    
 }
 
