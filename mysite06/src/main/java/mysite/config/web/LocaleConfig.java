@@ -10,9 +10,9 @@ import org.springframework.web.servlet.i18n.CookieLocaleResolver;
 @Configuration
 public class LocaleConfig {
 
-	// Locale Resolver
+	//Locale Resolver
 	@Bean
-	public LocaleResolver cookieLocaleResolver() {
+	public LocaleResolver localeResolver() {
 		CookieLocaleResolver localeResolver = new CookieLocaleResolver("lang");
 		localeResolver.setCookieHttpOnly(false);
 		
